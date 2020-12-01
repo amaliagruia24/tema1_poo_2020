@@ -15,7 +15,7 @@ final class QueryLongestSerial {
 
         Map<String, Integer> longestSerials = new LinkedHashMap<String, Integer>();
         for (int i = 0; i < input.getSerials().size(); ++i) {
-            int totalDuration = 0;
+            int totalD = 0;
             if (!input.getCommands().get(current).getFilters().get(1).isEmpty()
                     && !input.getCommands().get(current).getFilters().get(0).isEmpty()) {
                 if (input.getSerials().get(i).getGenres().contains(
@@ -23,10 +23,10 @@ final class QueryLongestSerial {
                         && input.getCommands().get(current).getFilters().get(0).contains(
                         Integer.toString(input.getSerials().get(i).getYear()))) {
                     for (int j = 0; j < input.getSerials().get(i).getSeasons().size(); ++j) {
-                        totalDuration += input.getSerials().get(i).
+                        totalD += input.getSerials().get(i).
                                 getSeasons().get(j).getDuration();
                     }
-                    longestSerials.put(input.getSerials().get(i).getTitle(), totalDuration);
+                    longestSerials.put(input.getSerials().get(i).getTitle(), totalD);
                 }
             } else
             if (!input.getCommands().get(current).getFilters().get(1).isEmpty()
@@ -34,9 +34,9 @@ final class QueryLongestSerial {
                 if (input.getSerials().get(i).getGenres().contains(
                         input.getCommands().get(current).getFilters().get(1).get(0))) {
                     for (int j = 0; j < input.getSerials().get(i).getSeasons().size(); ++j) {
-                        totalDuration += input.getSerials().get(i).getSeasons().get(j).getDuration();
+                        totalD += input.getSerials().get(i).getSeasons().get(j).getDuration();
                     }
-                    longestSerials.put(input.getSerials().get(i).getTitle(), totalDuration);
+                    longestSerials.put(input.getSerials().get(i).getTitle(), totalD);
                 }
             } else
             if (input.getCommands().get(current).getFilters().get(1).isEmpty()
@@ -44,17 +44,17 @@ final class QueryLongestSerial {
                 if (input.getCommands().get(current).getFilters().get(0).contains(
                         Integer.toString(input.getSerials().get(i).getYear()))) {
                     for (int j = 0; j < input.getSerials().get(i).getSeasons().size(); ++j) {
-                        totalDuration += input.getSerials().get(i).getSeasons().get(j).getDuration();
+                        totalD += input.getSerials().get(i).getSeasons().get(j).getDuration();
                     }
-                    longestSerials.put(input.getSerials().get(i).getTitle(), totalDuration);
+                    longestSerials.put(input.getSerials().get(i).getTitle(), totalD);
                 }
             } else
             if (input.getCommands().get(current).getFilters().get(1).isEmpty()
                     && input.getCommands().get(current).getFilters().get(0).isEmpty()) {
                 for (int j = 0; j < input.getSerials().get(i).getSeasons().size(); ++j) {
-                    totalDuration += input.getSerials().get(i).getSeasons().get(j).getDuration();
+                    totalD += input.getSerials().get(i).getSeasons().get(j).getDuration();
                 }
-                longestSerials.put(input.getSerials().get(i).getTitle(), totalDuration);
+                longestSerials.put(input.getSerials().get(i).getTitle(), totalD);
             }
         }
         Map<String, Integer> sortedLongestSerials = new LinkedHashMap<String, Integer>();

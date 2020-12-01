@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.BreakIterator;
 import java.util.*;
 
 /**
@@ -92,6 +91,7 @@ public final class Main {
         QueryUsers queryUsers = new QueryUsers();
         RecommendationSearch recommendationSearch = new RecommendationSearch();
         RecommendationFavorite recommendationFavorite = new RecommendationFavorite();
+        QueryRatingMovie queryRatingMovie = new QueryRatingMovie();
 
         for (int i = 0; i < input.getCommands().size(); ++i) {
             String currentAction = input.getCommands().get(i).getActionType();
@@ -105,8 +105,10 @@ public final class Main {
                     currentId++;
                 }
                 if (currentCommand.equals("favorite")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, commandFavorite.commandFavorite(input,
-                            input.getCommands().get(i).getUsername(), input.getCommands().get(i).getTitle())));
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            commandFavorite.commandFavorite(input,
+                                    input.getCommands().get(i).getUsername(),
+                            input.getCommands().get(i).getTitle())));
                     currentId++;
                 }
                 if (currentCommand.equals("rating")) {
@@ -114,14 +116,18 @@ public final class Main {
                     String outText;
                     if (i > 0) {
                         for (int j = i - 1; j >= 0; --j) {
-                            if (input.getCommands().get(j).getTitle() != null &&
-                                    input.getCommands().get(j).getTitle().equals(input.getCommands().get(i).getTitle())
-                                    && input.getCommands().get(j).getUsername().equals(input.getCommands().get(i).getUsername())
-                            && input.getCommands().get(j).getSeasonNumber() == input.getCommands().get(i).getSeasonNumber()
-                            && checkSeen.check(input,input.getCommands().get(j).getTitle(),input.getCommands().get(j).getUsername()) == 1) {
+                            if (input.getCommands().get(j).getTitle() != null
+                                    && input.getCommands().get(j).getTitle().equals(
+                                            input.getCommands().get(i).getTitle())
+                                    && input.getCommands().get(j).getUsername().equals(
+                                            input.getCommands().get(i).getUsername())
+                            && input.getCommands().get(j).getSeasonNumber()
+                                    == input.getCommands().get(i).getSeasonNumber()
+                            && checkSeen.check(input, input.getCommands().get(j).getTitle(),
+                                    input.getCommands().get(j).getUsername()) == 1) {
                                 ok = 0;
-                                outText = "error -> " + input.getCommands().get(i).getTitle() +
-                                        " has been already rated";
+                                outText = "error -> " + input.getCommands().get(i).getTitle()
+                                        + " has been already rated";
                                 arrayResult.add(fileWriter.writeFile(currentId, null, outText));
                                 currentId++;
                                 break;
@@ -129,9 +135,9 @@ public final class Main {
                         }
                     }
                     if (ok == 1) {
-                        arrayResult.add(fileWriter.writeFile(currentId,null, commandRating.commandRating(input,
-                                input.getCommands().get(i).getTitle(), input.getCommands().get(i).getUsername(),
-                                input.getCommands().get(i).getGrade())));
+                        arrayResult.add(fileWriter.writeFile(currentId, null,
+                                commandRating.commandRating(input, input.getCommands().get(i).getTitle(),
+                                input.getCommands().get(i).getUsername(), input.getCommands().get(i).getGrade())));
                         currentId++;
                     }
                 }
@@ -139,13 +145,13 @@ public final class Main {
             if (currentAction.equals("recommendation")) {
                 String currentCommand = input.getCommands().get(i).getType();
                 if (currentCommand.equals("standard")) {
-                    arrayResult.add(fileWriter.writeFile(currentId,null,
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
                             recommendationStandard.recommendationStandard(input, input.getCommands().get(i).getUsername())));
                     currentId++;
                 }
                 if (currentCommand.equals("best_unseen")) {
                     CreateMap orderedMovies = new CreateMap();
-                    arrayResult.add(fileWriter.writeFile(currentId,null,
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
                             recommendationBestUnseen.bestUnseen(orderedMovies.create(input),
                             input, input.getCommands().get(i).getUsername())));
                     currentId++;
@@ -160,6 +166,11 @@ public final class Main {
                             i)));
                     currentId++;
                 }
+                if(currentCommand.equals("popular")) {
+                    arrayResult.add(fileWriter.writeFile(currentId, null, recommendationSearch.getPopularResult(input,
+                            input.getCommands().get(i).getUsername())));
+                    currentId++;
+                }
             }
             if (currentAction.equals("query")) {
                 String currentCommand = input.getCommands().get(i).getObjectType();
@@ -167,7 +178,7 @@ public final class Main {
                 if (currentCommand.equals("actors") && currentCriteria.equals("average")) {
                     Map<String,Double> ratedVideos = myMap.createTopVideos(input);
                     Map<String, Double> topActors = myMap.createTopActors(input,ratedVideos);
-                    arrayResult.add(fileWriter.writeFile(currentId,null, queryAverageActors.createNTop(topActors,
+                    arrayResult.add(fileWriter.writeFile(currentId, null, queryAverageActors.createNTop(topActors,
                             input.getCommands().get(i).getSortType(),
                             input.getCommands().get(i).getNumber())));
                     currentId++;
@@ -178,7 +189,7 @@ public final class Main {
                     currentId++;
                 }
                 if (currentCommand.equals("actors") && currentCriteria.equals("filter_description")) {
-                    arrayResult.add(fileWriter.writeFile(currentId,null, queryFilterDescription.filterDescription(
+                    arrayResult.add(fileWriter.writeFile(currentId, null, queryFilterDescription.filterDescription(
                             input, i, input.getCommands().get(i).getSortType())));
                     currentId++;
                 }
@@ -199,7 +210,7 @@ public final class Main {
                 }
                 if (currentCommand.equals("shows") && currentCriteria.equals("longest")) {
                     arrayResult.add(fileWriter.writeFile(currentId, null, queryLongestSerial.longestSerials(input,
-                            input.getCommands().get(i).getSortType(),i, input.getCommands().get(i).getNumber())));
+                            input.getCommands().get(i).getSortType(), i, input.getCommands().get(i).getNumber())));
                     currentId++;
                 }
                 if (currentCommand.equals("movies") && currentCriteria.equals("most_viewed")) {
@@ -217,29 +228,13 @@ public final class Main {
                             input.getCommands().get(i).getSortType(), input.getCommands().get(i).getNumber())));
                     currentId++;
                 }
+                if(currentCommand.equals("movies") && currentCriteria.equals("ratings")) {
+                    arrayResult.add(fileWriter.writeFile(currentId, null, queryRatingMovie.getQueryRating(input,
+                            i)));
+                    currentId++;
+                }
             }
         }
-        Map<String, Integer> popularGenres = new LinkedHashMap<>();
-//        for(int i = 0; i < input.getMovies().size(); ++i) {
-//            for(int j = 0; j < input.getMovies().get(i).getGenres().size(); ++j)
-//                if(!popularGenres.containsKey(input.getMovies().get(i).getGenres().get(j))) {
-//                    popularGenres.put(input.getMovies().get(i).getGenres().get(j), 1);
-//                } else {
-//                    popularGenres.put(input.getMovies().get(i).getGenres().get(j), popularGenres.get(input.getMovies().
-//                            get(i).getGenres().get(j)) + 1);
-//                }
-//        }
-//        for(int i = 0; i < input.getSerials().size(); ++i) {
-//            for(int j = 0; j < input.getSerials().get(i).getGenres().size(); ++j)
-//                if(!popularGenres.containsKey(input.getSerials().get(i).getGenres().get(j))) {
-//                    popularGenres.put(input.getSerials().get(i).getGenres().get(j), 1);
-//                } else {
-//                    popularGenres.put(input.getSerials().get(i).getGenres().get(j), popularGenres.get(input.getSerials().
-//                            get(i).getGenres().get(j)) + 1);
-//                }
-//        }
-//        System.out.println(popularGenres);
-
         fileWriter.closeJSON(arrayResult);
     }
 

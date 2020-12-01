@@ -7,14 +7,21 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class QueryMostViewedSerial {
+final class QueryMostViewedSerial {
 
-    String outText;
+    private String outText;
 
-    public String getMostViewedSerials(Input input, String sortType, int current, int n) {
+    public String getMostViewedSerials(final Input input, final String sortType,
+                                       final int current, final int n) {
         Map<String, Integer> mostViewedSerials = new LinkedHashMap<String, Integer>();
         for (int i = 0; i < input.getSerials().size(); ++i) {
             int totalViews = 0;
+            while (input.getCommands().get(current).getFilters().get(1).remove(null)) {
+                input.getCommands().get(current).getFilters().get(1).remove(null);
+            }
+            while (input.getCommands().get(current).getFilters().get(0).remove(null)) {
+                input.getCommands().get(current).getFilters().get(0).remove(null);
+            }
             if (!input.getCommands().get(current).getFilters().get(1).isEmpty()
                     && !input.getCommands().get(current).getFilters().get(0).isEmpty()) {
                 if (input.getSerials().get(i).getGenres().contains(
@@ -22,12 +29,14 @@ public class QueryMostViewedSerial {
                         && input.getCommands().get(current).getFilters().get(0).contains(
                         Integer.toString(input.getSerials().get(i).getYear()))) {
                     for (int j = 0; j < input.getUsers().size(); ++j) {
-                        if (input.getUsers().get(j).getHistory().containsKey(input.getSerials().get(i).getTitle())) {
-                            totalViews += input.getUsers().get(j).getHistory().get(input.getSerials().get(i).getTitle());
+                        if (input.getUsers().get(j).getHistory().containsKey(
+                                input.getSerials().get(i).getTitle())) {
+                            totalViews += input.getUsers().get(j).getHistory().get(
+                                    input.getSerials().get(i).getTitle());
                         }
                     }
                     if (totalViews > 0) {
-                        mostViewedSerials.put(input.getSerials().get(i).getTitle(),totalViews);
+                        mostViewedSerials.put(input.getSerials().get(i).getTitle(), totalViews);
                     }
                 }
             } else
@@ -36,12 +45,14 @@ public class QueryMostViewedSerial {
                 if (input.getCommands().get(current).getFilters().get(0).contains(
                         Integer.toString(input.getSerials().get(i).getYear()))) {
                     for (int j = 0; j < input.getUsers().size(); ++j) {
-                        if (input.getUsers().get(j).getHistory().containsKey(input.getSerials().get(i).getTitle())) {
-                            totalViews += input.getUsers().get(j).getHistory().get(input.getSerials().get(i).getTitle());
+                        if (input.getUsers().get(j).getHistory().containsKey(
+                                input.getSerials().get(i).getTitle())) {
+                            totalViews += input.getUsers().get(j).getHistory().get(
+                                    input.getSerials().get(i).getTitle());
                         }
                     }
                     if (totalViews > 0) {
-                        mostViewedSerials.put(input.getSerials().get(i).getTitle(),totalViews);
+                        mostViewedSerials.put(input.getSerials().get(i).getTitle(), totalViews);
                     }
                 }
             } else
@@ -50,26 +61,31 @@ public class QueryMostViewedSerial {
                 if (input.getSerials().get(i).getGenres().contains(
                         input.getCommands().get(current).getFilters().get(1).get(0))) {
                     for (int j = 0; j < input.getUsers().size(); ++j) {
-                        if (input.getUsers().get(j).getHistory().containsKey(input.getSerials().get(i).getTitle())) {
-                            totalViews += input.getUsers().get(j).getHistory().get(input.getSerials().get(i).getTitle());
+                        if (input.getUsers().get(j).getHistory().containsKey(
+                                input.getSerials().get(i).getTitle())) {
+                            totalViews += input.getUsers().get(j).getHistory().get(
+                                    input.getSerials().get(i).getTitle());
                         }
                     }
                     if (totalViews > 0) {
-                        mostViewedSerials.put(input.getSerials().get(i).getTitle(),totalViews);
+                        mostViewedSerials.put(input.getSerials().get(i).getTitle(), totalViews);
                     }
                 }
             } else
             if (input.getCommands().get(current).getFilters().get(1).isEmpty()
                     && input.getCommands().get(current).getFilters().get(0).isEmpty()) {
                 for (int j = 0; j < input.getUsers().size(); ++j) {
-                    if (input.getUsers().get(j).getHistory().containsKey(input.getSerials().get(i).getTitle())) {
-                        totalViews += input.getUsers().get(j).getHistory().get(input.getSerials().get(i).getTitle());
+                    if (input.getUsers().get(j).getHistory().containsKey(
+                            input.getSerials().get(i).getTitle())) {
+                        totalViews += input.getUsers().get(j).getHistory().get(
+                                input.getSerials().get(i).getTitle());
                     }
                 }
                 if (totalViews > 0) {
-                    mostViewedSerials.put(input.getSerials().get(i).getTitle(),totalViews);
+                    mostViewedSerials.put(input.getSerials().get(i).getTitle(), totalViews);
                 }
             }
+
         }
 
         Map<String, Integer> sortedMostViewed = new LinkedHashMap<String, Integer>();
@@ -78,8 +94,7 @@ public class QueryMostViewedSerial {
                     .stream()
                     .sorted(Map.Entry.comparingByValue())
                     .forEachOrdered(x -> sortedMostViewed.put(x.getKey(), x.getValue()));
-        }
-        else {
+        } else {
             mostViewedSerials.entrySet()
                     .stream()
                     .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
@@ -99,5 +114,13 @@ public class QueryMostViewedSerial {
         }
         outText = "Query result: " + mostViewed;
         return outText;
+    }
+
+    public String getOutText() {
+        return outText;
+    }
+
+    public void setOutText(final String outText) {
+        this.outText = outText;
     }
 }

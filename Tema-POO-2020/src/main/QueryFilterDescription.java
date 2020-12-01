@@ -2,7 +2,8 @@ package main;
 /*
 * metoda care intoarce un arraylist de actori sortati alfabetic, ascendent sau descendent
 * actori selectati in functie de cuvintele continute in descriere
-* am impartit in cuvinte descrierea, si apoi am cautat in acest arraylist toate keywords-urile din test*/
+* am impartit in cuvinte descrierea, si apoi am cautat
+* in acest arraylist toate keywords-urile din test*/
 
 import fileio.Input;
 
@@ -16,7 +17,7 @@ final class QueryFilterDescription {
 
     public String filterDescription(final Input input, final int current, final String sortType) {
         ArrayList<String> actors = new ArrayList<String>();
-        for (int i = 0; i < input.getActors().size();++i) {
+        for (int i = 0; i < input.getActors().size(); ++i) {
             String text = input.getActors().get(i).getCareerDescription();
             List<String> words = new ArrayList<String>();
             BreakIterator breakIterator = BreakIterator.getWordInstance();
@@ -25,7 +26,8 @@ final class QueryFilterDescription {
             while (BreakIterator.DONE != lastIndex) {
                 int firstIndex = lastIndex;
                 lastIndex = breakIterator.next();
-                if (lastIndex != BreakIterator.DONE && Character.isLetterOrDigit(text.charAt(firstIndex))) {
+                if (lastIndex != BreakIterator.DONE
+                        && Character.isLetterOrDigit(text.charAt(firstIndex))) {
                     words.add(text.substring(firstIndex, lastIndex));
                 }
             }
@@ -45,8 +47,7 @@ final class QueryFilterDescription {
         if (sortType.equals("asc")) {
             outText = "Query result: " + actors;
             return outText;
-        }
-        else {
+        } else {
             Collections.reverse(actors);
             outText = "Query result: " + actors;
             return outText;

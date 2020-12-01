@@ -15,6 +15,12 @@ final class QueryFavoriteShow {
         Map<String, Integer> favoriteMovies = new LinkedHashMap<String, Integer>();
         for (int i = 0; i < input.getSerials().size(); ++i) {
             int noOcurrences = 0;
+            while (input.getCommands().get(current).getFilters().get(1).remove(null)) {
+                input.getCommands().get(current).getFilters().get(1).remove(null);
+            }
+            while (input.getCommands().get(current).getFilters().get(0).remove(null)) {
+                input.getCommands().get(current).getFilters().get(0).remove(null);
+            }
             if (!input.getCommands().get(current).getFilters().get(1).isEmpty()
                     && !input.getCommands().get(current).getFilters().get(0).isEmpty()) {
                 if (input.getSerials().get(i).getGenres().contains(

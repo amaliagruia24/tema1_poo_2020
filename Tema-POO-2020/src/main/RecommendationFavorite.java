@@ -7,35 +7,39 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class RecommendationFavorite {
-    String outText;
+final class RecommendationFavorite {
+    private String outText;
 
-    public String getRecommendationFav(Input input, int current) {
+    public String getRecommendationFav(final Input input, final int current) {
 
         ArrayList<String> unseenVideos = new ArrayList<>();
-        for(int i = 0; i < input.getMovies().size(); ++i) {
-            for(int j = 0; j < input.getUsers().size(); ++j) {
-                if(input.getUsers().get(j).getUsername().equals(input.getCommands().get(current).getUsername())) {
-                    if(!input.getUsers().get(j).getSubscriptionType().equals("PREMIUM")) {
+        for (int i = 0; i < input.getMovies().size(); ++i) {
+            for (int j = 0; j < input.getUsers().size(); ++j) {
+                if (input.getUsers().get(j).getUsername().equals(
+                        input.getCommands().get(current).getUsername())) {
+                    if (!input.getUsers().get(j).getSubscriptionType().equals("PREMIUM")) {
                         outText = "FavoriteRecommendation cannot be applied!";
                         return outText;
                     } else
-                    if(!input.getUsers().get(j).getHistory().containsKey(input.getMovies().get(i).getTitle())) {
+                    if (!input.getUsers().get(j).getHistory().containsKey(
+                            input.getMovies().get(i).getTitle())) {
                         unseenVideos.add(input.getMovies().get(i).getTitle());
                     }
                 }
             }
         }
-        for(int i = 0; i < input.getSerials().size(); ++i) {
-            for(int j = 0; j < input.getUsers().size(); ++j) {
-                if(input.getUsers().get(j).getUsername().equals(input.getCommands().get(current).getUsername())) {
-                    if(!input.getUsers().get(j).getHistory().containsKey(input.getSerials().get(i).getTitle())) {
+        for (int i = 0; i < input.getSerials().size(); ++i) {
+            for (int j = 0; j < input.getUsers().size(); ++j) {
+                if (input.getUsers().get(j).getUsername().equals(
+                        input.getCommands().get(current).getUsername())) {
+                    if (!input.getUsers().get(j).getHistory().containsKey(
+                            input.getSerials().get(i).getTitle())) {
                         unseenVideos.add(input.getSerials().get(i).getTitle());
                     }
                 }
             }
         }
-        if(unseenVideos.isEmpty()) {
+        if (unseenVideos.isEmpty()) {
             outText = "FavoriteRecommendation cannot be applied!";
             return outText;
         }
@@ -48,7 +52,7 @@ public class RecommendationFavorite {
                     noApp++;
                 }
             }
-            if(noApp > 0) {
+            if (noApp > 0) {
                 favsOccurences.put(unseenVideos.get(i), noApp);
             }
         }
@@ -64,5 +68,13 @@ public class RecommendationFavorite {
         }
         outText = "FavoriteRecommendation result: " + key;
         return outText;
+    }
+
+    public String getOutText() {
+        return outText;
+    }
+
+    public void setOutText(final String outText) {
+        this.outText = outText;
     }
 }

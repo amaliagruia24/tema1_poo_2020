@@ -7,29 +7,36 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class RecommendationSearch {
-    String outText;
+final class RecommendationSearch {
+    private String outText;
 
-    public String getUnseenVideos(Input input, int current) {
+    public String getUnseenVideos(final Input input, final int current) {
         ArrayList<String> specifiedGenreVideos = new ArrayList<String>();
         CheckSeen checkSeen = new CheckSeen();
-        for (int i = 0; i < input.getMovies().size(); ++i)
-            if (input.getMovies().get(i).getGenres().contains(input.getCommands().get(current).getGenre())) {
+        for (int i = 0; i < input.getMovies().size(); ++i) {
+            if (input.getMovies().get(i).getGenres().contains(
+                    input.getCommands().get(current).getGenre())) {
                 specifiedGenreVideos.add(input.getMovies().get(i).getTitle());
             }
-        for (int i = 0; i < input.getSerials().size(); ++i)
-            if (input.getSerials().get(i).getGenres().contains(input.getCommands().get(current).getGenre())) {
+        }
+        for (int i = 0; i < input.getSerials().size(); ++i) {
+            if (input.getSerials().get(i).getGenres().contains(
+                    input.getCommands().get(current).getGenre())) {
                 specifiedGenreVideos.add(input.getSerials().get(i).getTitle());
             }
+        }
         ArrayList<String> existingGenreVideos = new ArrayList<String>();
         for (int i = 0; i < input.getUsers().size(); ++i) {
-            if (input.getUsers().get(i).getUsername().equals(input.getCommands().get(current).getUsername())
-                    && input.getUsers().get(i).getSubscriptionType().equals("PREMIUM"))
+            if (input.getUsers().get(i).getUsername().equals(
+                    input.getCommands().get(current).getUsername())
+                    && input.getUsers().get(i).getSubscriptionType().equals("PREMIUM")) {
                 for (int j = 0; j < specifiedGenreVideos.size(); ++j) {
-                    if (!input.getUsers().get(i).getHistory().containsKey(specifiedGenreVideos.get(j))) {
+                    if (!input.getUsers().get(i).getHistory().containsKey(
+                            specifiedGenreVideos.get(j))) {
                         existingGenreVideos.add(specifiedGenreVideos.get(j));
                     }
                 }
+            }
         }
         if (existingGenreVideos.isEmpty()) {
             outText = "SearchRecommendation cannot be applied!";
@@ -40,18 +47,20 @@ public class RecommendationSearch {
             for (int j = 0; j < input.getCommands().size(); ++j) {
                 if (input.getCommands().get(j).getActionType().equals("command")
                         && input.getCommands().get(j).getType().equals("rating")
-                        && input.getCommands().get(j).getTitle().equals(existingGenreVideos.get(i))) {
-                    if (checkSeen.check(input, existingGenreVideos.get(i), input.getCommands().get(i).getUsername()) == 1) {
+                        && input.getCommands().get(j).getTitle().equals(
+                                existingGenreVideos.get(i))) {
+                    if (checkSeen.check(input, existingGenreVideos.get(i),
+                            input.getCommands().get(i).getUsername()) == 1) {
                         int ok = 1;
                         if (i > 0) {
                             for (int k = i - 1; k >= 0; --k) {
-                                if (input.getCommands().get(k).getTitle() != null &&
-                                        input.getCommands().get(k).getTitle().equals(
+                                if (input.getCommands().get(k).getTitle() != null
+                                        && input.getCommands().get(k).getTitle().equals(
                                                 input.getCommands().get(j).getTitle())
                                         && input.getCommands().get(k).getUsername().equals(
                                                 input.getCommands().get(j).getUsername())
-                                        && input.getCommands().get(k).getSeasonNumber() ==
-                                        input.getCommands().get(j).getSeasonNumber()
+                                        && input.getCommands().get(k).getSeasonNumber()
+                                        == input.getCommands().get(j).getSeasonNumber()
                                         && checkSeen.check(input, input.getCommands().get(k).getTitle(),
                                         input.getCommands().get(k).getUsername()) == 1) {
                                     ok = 0;
@@ -84,5 +93,24 @@ public class RecommendationSearch {
             outText = "SearchRecommendation result: " + result;
             return outText;
         }
+    }
+
+    public String getPopularResult(final Input input, final String username) {
+        for (int i = 0; i < input.getUsers().size(); ++i) {
+            if (input.getUsers().get(i).getUsername().equals(username)) {
+                if (!input.getUsers().get(i).getSubscriptionType().equals("PREMIUM")) {
+                    outText = "PopularRecommendation cannot be applied!";
+                }
+            }
+        }
+        return outText;
+    }
+
+    public String getOutText() {
+        return outText;
+    }
+
+    public void setOutText(final String outText) {
+        this.outText = outText;
     }
 }
