@@ -7,6 +7,14 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Metoda care intoarce un mesaj cu un Arraylist de filme,
+ * sortate dupa lungimea lor.
+ * Filmele trebuie sa aiba anumite filtre, date in input.
+ * Creez un Map cu filmele ce indeplinesc cerintele si
+ * durata lor. La final, sortez corespunzator map-ul.
+ */
+
 final class QueryLongestMovie {
     private String outText;
 

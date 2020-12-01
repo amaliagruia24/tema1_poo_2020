@@ -2,8 +2,20 @@ package main;
 
 import fileio.Input;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
+/**
+        Aici am implementat o metoda care intoarce un mesaj continand un top al actorilor,
+    sortati(asc sau desc) dupa numarul de premii primite.
+        Mai intai, verific daca fiecare actor are toate premiile cerute in query si
+    creez un map cu numele si numarul de premii detinut de fiecare.
+        La final, la valori egale de numar de premii, sortez folosind 2 arraylist-uri
+    ce au aceeasi dimensiune, generate din map.
+ */
 final class QueryAwardsActors {
     private String outText;
 
@@ -51,7 +63,6 @@ final class QueryAwardsActors {
             noAwards.add(entry.getValue());
             auxActors.add(entry.getKey());
         }
-
         for (int i = 0; i < noAwards.size(); ++i) {
             for (int j = i + 1; j < noAwards.size(); ++j) {
                 if (noAwards.get(i) == noAwards.get(j)) {

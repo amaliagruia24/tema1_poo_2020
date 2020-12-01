@@ -2,7 +2,19 @@ package main;
 
 import fileio.Input;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+/**
+ * Metoda care intoarce un mesaj cu o lista cu cei mai
+ * activi useri. M-am uitat in commands sa vad de cate ori un user
+ * a dat rating, in functie de permisiune.
+ * Lista intoarsa va trebui sortata dupa numarul de ratings,
+ * crescator sau descrescator.
+ */
 
 final class QueryUsers {
 

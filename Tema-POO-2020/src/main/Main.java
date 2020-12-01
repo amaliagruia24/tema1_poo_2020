@@ -13,7 +13,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
+
+
 
 /**
  * The entry point to this homework. It runs the checker that tests your implentation.
@@ -92,6 +95,7 @@ public final class Main {
         RecommendationSearch recommendationSearch = new RecommendationSearch();
         RecommendationFavorite recommendationFavorite = new RecommendationFavorite();
         QueryRatingMovie queryRatingMovie = new QueryRatingMovie();
+        QueryRatingShow queryRatingShow = new QueryRatingShow();
 
         for (int i = 0; i < input.getCommands().size(); ++i) {
             String currentAction = input.getCommands().get(i).getActionType();
@@ -116,7 +120,9 @@ public final class Main {
                     String outText;
                     if (i > 0) {
                         for (int j = i - 1; j >= 0; --j) {
-                            if (input.getCommands().get(j).getTitle() != null
+                            if (input.getCommands().get(j).getActionType().equals("command")
+                                && input.getCommands().get(j).getType().equals("rating")
+                                && input.getCommands().get(j).getTitle() != null
                                     && input.getCommands().get(j).getTitle().equals(
                                             input.getCommands().get(i).getTitle())
                                     && input.getCommands().get(j).getUsername().equals(
@@ -136,8 +142,10 @@ public final class Main {
                     }
                     if (ok == 1) {
                         arrayResult.add(fileWriter.writeFile(currentId, null,
-                                commandRating.commandRating(input, input.getCommands().get(i).getTitle(),
-                                input.getCommands().get(i).getUsername(), input.getCommands().get(i).getGrade())));
+                                commandRating.commandRating(input,
+                                        input.getCommands().get(i).getTitle(),
+                                input.getCommands().get(i).getUsername(),
+                                        input.getCommands().get(i).getGrade())));
                         currentId++;
                     }
                 }
@@ -146,7 +154,8 @@ public final class Main {
                 String currentCommand = input.getCommands().get(i).getType();
                 if (currentCommand.equals("standard")) {
                     arrayResult.add(fileWriter.writeFile(currentId, null,
-                            recommendationStandard.recommendationStandard(input, input.getCommands().get(i).getUsername())));
+                            recommendationStandard.recommendationStandard(
+                                    input, input.getCommands().get(i).getUsername())));
                     currentId++;
                 }
                 if (currentCommand.equals("best_unseen")) {
@@ -157,18 +166,19 @@ public final class Main {
                     currentId++;
                 }
                 if (currentCommand.equals("search")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, recommendationSearch.getUnseenVideos(
-                            input, i)));
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            recommendationSearch.getUnseenVideos(input, i)));
                     currentId++;
                 }
-                if(currentCommand.equals("favorite")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, recommendationFavorite.getRecommendationFav(input,
-                            i)));
+                if (currentCommand.equals("favorite")) {
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            recommendationFavorite.getRecommendationFav(input, i)));
                     currentId++;
                 }
-                if(currentCommand.equals("popular")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, recommendationSearch.getPopularResult(input,
-                            input.getCommands().get(i).getUsername())));
+                if (currentCommand.equals("popular")) {
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            recommendationSearch.getPopularResult(input,
+                                    input.getCommands().get(i).getUsername())));
                     currentId++;
                 }
             }
@@ -176,61 +186,84 @@ public final class Main {
                 String currentCommand = input.getCommands().get(i).getObjectType();
                 String currentCriteria = input.getCommands().get(i).getCriteria();
                 if (currentCommand.equals("actors") && currentCriteria.equals("average")) {
-                    Map<String,Double> ratedVideos = myMap.createTopVideos(input);
-                    Map<String, Double> topActors = myMap.createTopActors(input,ratedVideos);
-                    arrayResult.add(fileWriter.writeFile(currentId, null, queryAverageActors.createNTop(topActors,
+                    Map<String, Double> ratedVideos = myMap.createTopVideos(input);
+                    Map<String, Double> topActors = myMap.createTopActors(input, ratedVideos);
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            queryAverageActors.createNTop(topActors,
                             input.getCommands().get(i).getSortType(),
                             input.getCommands().get(i).getNumber())));
                     currentId++;
                 }
                 if (currentCommand.equals("actors") && currentCriteria.equals("awards")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, queryAwardsActors.topActorsAwards(input,
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            queryAwardsActors.topActorsAwards(input,
                             input.getCommands().get(i).getSortType(), i)));
                     currentId++;
                 }
-                if (currentCommand.equals("actors") && currentCriteria.equals("filter_description")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, queryFilterDescription.filterDescription(
-                            input, i, input.getCommands().get(i).getSortType())));
+                if (currentCommand.equals("actors")
+                        && currentCriteria.equals("filter_description")) {
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            queryFilterDescription.filterDescription(input,
+                                    i, input.getCommands().get(i).getSortType())));
                     currentId++;
                 }
                 if (currentCommand.equals("movies") && currentCriteria.equals("favorite")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, queryFavoriteMovie.listFavoriteMovies(
-                            input, input.getCommands().get(i).getSortType(), i, input.getCommands().get(i).getNumber())));
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            queryFavoriteMovie.listFavoriteMovies(
+                            input, input.getCommands().get(i).getSortType(), i,
+                                    input.getCommands().get(i).getNumber())));
                     currentId++;
                 }
                 if (currentCommand.equals("shows") && currentCriteria.equals("favorite")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, queryFavoriteShow.listFavoriteMovies(
-                            input, input.getCommands().get(i).getSortType(), i, input.getCommands().get(i).getNumber())));
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            queryFavoriteShow.listFavoriteMovies(
+                            input, input.getCommands().get(i).getSortType(), i,
+                                    input.getCommands().get(i).getNumber())));
                     currentId++;
                 }
                 if (currentCommand.equals("movies") && currentCriteria.equals("longest")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, queryLongestMovie.longestMovies(input,
-                            input.getCommands().get(i).getSortType(), i, input.getCommands().get(i).getNumber())));
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            queryLongestMovie.longestMovies(input,
+                            input.getCommands().get(i).getSortType(), i,
+                                    input.getCommands().get(i).getNumber())));
                     currentId++;
                 }
                 if (currentCommand.equals("shows") && currentCriteria.equals("longest")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, queryLongestSerial.longestSerials(input,
-                            input.getCommands().get(i).getSortType(), i, input.getCommands().get(i).getNumber())));
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            queryLongestSerial.longestSerials(input,
+                            input.getCommands().get(i).getSortType(), i,
+                                    input.getCommands().get(i).getNumber())));
                     currentId++;
                 }
                 if (currentCommand.equals("movies") && currentCriteria.equals("most_viewed")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, queryMostViewed.getMostViewedMovies(input,
-                            input.getCommands().get(i).getSortType(), i, input.getCommands().get(i).getNumber())));
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            queryMostViewed.getMostViewedMovies(input,
+                            input.getCommands().get(i).getSortType(), i,
+                                    input.getCommands().get(i).getNumber())));
                     currentId++;
                 }
                 if (currentCommand.equals("shows") && currentCriteria.equals("most_viewed")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, queryMostViewedSerial.getMostViewedSerials(input,
-                            input.getCommands().get(i).getSortType(), i, input.getCommands().get(i).getNumber())));
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            queryMostViewedSerial.getMostViewedSerials(input,
+                            input.getCommands().get(i).getSortType(), i,
+                                    input.getCommands().get(i).getNumber())));
                     currentId++;
                 }
                 if (currentCommand.equals("users") && currentCriteria.equals("num_ratings")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, queryUsers.getActiveUsers(input,
-                            input.getCommands().get(i).getSortType(), input.getCommands().get(i).getNumber())));
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            queryUsers.getActiveUsers(input,
+                            input.getCommands().get(i).getSortType(),
+                                    input.getCommands().get(i).getNumber())));
                     currentId++;
                 }
-                if(currentCommand.equals("movies") && currentCriteria.equals("ratings")) {
-                    arrayResult.add(fileWriter.writeFile(currentId, null, queryRatingMovie.getQueryRating(input,
-                            i)));
+                if (currentCommand.equals("movies") && currentCriteria.equals("ratings")) {
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            queryRatingMovie.getQueryRating(input, i)));
+                    currentId++;
+                }
+                if (currentCommand.equals("shows") && currentCriteria.equals("ratings")) {
+                    arrayResult.add(fileWriter.writeFile(currentId, null,
+                            queryRatingShow.getRatedShows(input, i)));
                     currentId++;
                 }
             }

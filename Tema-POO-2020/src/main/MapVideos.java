@@ -4,6 +4,13 @@ import fileio.Input;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+/**
+    Metoda care creeaz un map cu un video si rating-ul total calculat.
+    Voi folosi 2 maps, una pentru filme si una pt seriale.
+    Pentru a creea fiecare map, ma uit prin actions sa vad daca user-ii
+    au voie sa dea rating.
+    Daca da, fac media rating-urilor dupa care adaug in map
+ */
 
 final class MapVideos {
 
@@ -101,9 +108,11 @@ final class MapVideos {
         map.putAll(map4);
         return map;
     }
+/*
+     Metoda care creeaza o mapa cu actorii si
+     rating urile corespunzatoare filmelor in care a jucat.
 
-    // metoda care creeaza o mapa cu actorii si
-    // rating urile corespunzatoare filmelor in care a jucat
+ */
     public Map<String, Double> createTopActors(final Input input,
                                                final Map<String, Double> ratedVideos) {
         Map<String, Double> topActors = new LinkedHashMap<String, Double>();

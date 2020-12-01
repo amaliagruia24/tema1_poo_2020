@@ -2,6 +2,12 @@ package main;
 
 import fileio.Input;
 
+/**
+ * Parcurg movies si vad care este primul care nu se afla in
+ * istoricul user-ului dat ca parametru.
+ * Il intorc pe primul gasit. Daca am ajuns la finalul listei de movies,
+ * inseamna ca user-ul le-a vazut pe toate.
+ */
 final class RecommendationStandard {
     private String outText;
     private  int j;

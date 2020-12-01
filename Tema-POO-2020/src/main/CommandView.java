@@ -1,7 +1,11 @@
 package main;
 
 import fileio.Input;
-
+/**
+    Clasa ce adauga un video in lista de videos vizualizate de un user
+    Daca video-ul este deja vizualizat, doar cresc numarul de vizionari si
+    afisez un mesaj corespunzator
+ */
 final class CommandView {
 
     private String outText;

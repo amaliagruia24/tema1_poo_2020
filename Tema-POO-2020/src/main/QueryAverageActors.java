@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/*
-* implementare metoda care returneaza top-ul de N actori cerut in query average actors
+/**
+* Implementare metoda care returneaza top-ul de N actori cerut in query average actors
 * metoda primeste un map cu strings si doubles, o sorteaza crescator sau descrescator(parametru)
 * la ratings egale, sorteaza dupa numele actorilor, ii pune in ordine alfabetica
 * */

@@ -1,7 +1,10 @@
 package main;
 
 import fileio.Input;
-
+/**
+    Am implementat aici o metoda care verifica daca un video se afla in istoria unui user
+    Daca da, atunci ii poate da rating, daca nu, va afisa un mesaj de eroare
+ */
 final class CommandRating {
     private String outText;
 

@@ -7,6 +7,14 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Metoda care intoarce un mesaj cu un Arraylist de seriale,
+ * sortate dupa lungimea lor.
+ * Serialel trebuie sa aiba anumite filtre, date in input.
+ * Creez un Map cu serialele ce indeplinesc cerintele si
+ * durata lor. La final, sortez corespunzator map-ul.
+ */
+
 final class QueryLongestSerial {
     private String outText;
 

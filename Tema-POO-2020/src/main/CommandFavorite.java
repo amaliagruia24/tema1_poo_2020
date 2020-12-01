@@ -1,6 +1,11 @@
 package main;
 
 import fileio.Input;
+/**
+    Aici am implememtat o metoda care ma ajuta sa vad daca un video se afla deja
+    in lista de favorite a unui user, dat ca parametru
+    Metoda intoarce mesaje corespunzatoare raspunusului gasit
+ */
 
 final class CommandFavorite {
 

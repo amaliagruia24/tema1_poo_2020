@@ -1,9 +1,4 @@
 package main;
-/*
-* metoda care intoarce un arraylist de actori sortati alfabetic, ascendent sau descendent
-* actori selectati in functie de cuvintele continute in descriere
-* am impartit in cuvinte descrierea, si apoi am cautat
-* in acest arraylist toate keywords-urile din test*/
 
 import fileio.Input;
 
@@ -11,6 +6,15 @@ import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+/**
+ * Metoda care intoarce un Arraylist de actori sortati alfabetic(asc sau desc),
+ * actori selectati in functie de cuvintele continute in descriere
+ * Am impartit in cuvinte descrierea(le-am pus intr-un Arraylist)
+ * si apoi am cautat in acel Arraylist toate keywords din test.
+ * Daca le avea pe toate, adaugam la lista cu actori din final.
+ */
+
 
 final class QueryFilterDescription {
     private String outText;

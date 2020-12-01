@@ -7,6 +7,13 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Fac o lista cu videos nevizualizate de user-ul din input.
+ * Apoi, caut fiecare film sa vad de cate ori apare in listele de
+ * favorites, adaug filmul si nr de aparitii intr-un map, pe care il
+ * sortez descrescator. Intorc primul film din acest map(cu cele mai multe
+ * aparitii).
+ */
 final class RecommendationFavorite {
     private String outText;
 

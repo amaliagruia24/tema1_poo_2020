@@ -6,9 +6,13 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-// clasa care creeaza mapa cu filmele ordonate descrecator dupa rating
+/**
+    Clasa care creeaza un map cu filmele ordonate descrecator dupa rating
+    Parcurg actions si vad daca un utilizator are voie sa dea rating(daca l-a vazut
+    sau nu)
+*/
 final class CreateMap {
-    private CheckSeen checkkkk = new CheckSeen();
+    private CheckSeen check = new CheckSeen();
     private Map<String, Double> map = new LinkedHashMap<String, Double>();
 
     public Map<String, Double> create(final Input input) {
@@ -17,7 +21,7 @@ final class CreateMap {
                 if (input.getCommands().get(j).getActionType().equals("command")
                         && input.getCommands().get(j).getTitle().equals(
                                 input.getMovies().get(k).getTitle())
-                        && checkkkk.check(input, input.getCommands().get(j).getTitle(),
+                        && check.check(input, input.getCommands().get(j).getTitle(),
                                 input.getCommands().get(j).getUsername()) == 1) {
                     map.put(input.getCommands().get(j).getTitle(),
                             input.getCommands().get(j).getGrade());
@@ -33,11 +37,11 @@ final class CreateMap {
     }
 
     public CheckSeen getCheckkkk() {
-        return checkkkk;
+        return check;
     }
 
     public void setCheckkkk(final CheckSeen checkkkk) {
-        this.checkkkk = checkkkk;
+        this.check = checkkkk;
     }
 
     public Map<String, Double> getMap() {

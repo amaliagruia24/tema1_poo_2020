@@ -4,6 +4,13 @@ import fileio.Input;
 
 import java.util.Map;
 
+/**
+ * La aceasta metoda voi folosi mapa creata de metoda din clasa MapVideos.
+ * Parcurg aceasta mapa sa vad ce videos din map-ul meu nu a vazut acel user
+ * Il intorc pe cel cu rating-ul cel mai mare, adica primul gasit deoarece
+ * map-ul este sortat.
+ */
+
 final class RecommendationBestUnseen {
     private String outText;
 

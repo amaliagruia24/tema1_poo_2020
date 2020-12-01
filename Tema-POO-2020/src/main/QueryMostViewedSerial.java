@@ -7,6 +7,14 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Metoda ce intoarce un mesaj cu un Arraylist ce contine
+ * numele serialelor sortate dupa numarul de vizualizari
+ * Parcurg serials ca sa extrag nr de vizualizari, fac o
+ * suma cu acestea si o adaug intr-un moa alaturi de numele serialului.
+ * In final, sortez dupa sortType, ascendent sau descendent.
+ */
+
 final class QueryMostViewedSerial {
 
     private String outText;

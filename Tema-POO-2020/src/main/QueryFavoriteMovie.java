@@ -2,7 +2,20 @@ package main;
 
 import fileio.Input;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+/**
+ * Metoda care creeaza o lista cu primele N filme sortate dupa
+ * numarul de aparitii in lista de favorites ale userilor.
+ * Am 4 cazuri de tratat: daca primesc ca filtru si gen si an,
+ * daca nu primesc pe niciunul, sau daca primesc doar an
+ * sau doar gen. Dupa caz, creez o lista sortata in functie
+ * de sortType(asc sau desc).
+ */
 
 final class QueryFavoriteMovie {
     private String outText;

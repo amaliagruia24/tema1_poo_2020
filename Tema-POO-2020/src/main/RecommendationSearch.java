@@ -7,6 +7,14 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Creez o lista cu videoclipurile din genul specificat in input.
+ * Parcurg history-ul user-ului din command sa vad daca nu a mai vazut
+ * videoclipurile din lista. La final, sortez map-ul creat(cu videos
+ * nevazute si rating-ul dat) crescator.
+ * Am implementat de asemenea, aici, o metoda care intoarce rezultatul recomandarii
+ * popular, verific daca am un user valid sau nu.
+ */
 final class RecommendationSearch {
     private String outText;
 
@@ -42,7 +50,7 @@ final class RecommendationSearch {
             outText = "SearchRecommendation cannot be applied!";
             return outText;
         }
-        Map<String, Double> videozz = new LinkedHashMap<>();
+        Map<String, Double> videos = new LinkedHashMap<>();
         for (int i = 0; i < existingGenreVideos.size(); ++i) {
             for (int j = 0; j < input.getCommands().size(); ++j) {
                 if (input.getCommands().get(j).getActionType().equals("command")
@@ -61,7 +69,8 @@ final class RecommendationSearch {
                                                 input.getCommands().get(j).getUsername())
                                         && input.getCommands().get(k).getSeasonNumber()
                                         == input.getCommands().get(j).getSeasonNumber()
-                                        && checkSeen.check(input, input.getCommands().get(k).getTitle(),
+                                        && checkSeen.check(input,
+                                        input.getCommands().get(k).getTitle(),
                                         input.getCommands().get(k).getUsername()) == 1) {
                                     ok = 0;
                                     break;
@@ -69,7 +78,8 @@ final class RecommendationSearch {
                             }
                         }
                         if (ok == 1) {
-                            videozz.put(existingGenreVideos.get(i), input.getCommands().get(j).getGrade());
+                            videos.put(existingGenreVideos.get(i),
+                                    input.getCommands().get(j).getGrade());
                         }
                     }
                 }
@@ -77,12 +87,12 @@ final class RecommendationSearch {
         }
         Map<String, Double> sortedvideozz = new LinkedHashMap<>();
         ArrayList<String> result = new ArrayList<String>();
-        if (videozz.isEmpty()) {
+        if (videos.isEmpty()) {
             Collections.sort(existingGenreVideos);
             outText = "SearchRecommendation result: " + existingGenreVideos;
             return outText;
         } else {
-            videozz.entrySet()
+            videos.entrySet()
                     .stream()
                     .sorted(Map.Entry.comparingByValue())
                     .forEachOrdered(x -> sortedvideozz.put(x.getKey(), x.getValue()));

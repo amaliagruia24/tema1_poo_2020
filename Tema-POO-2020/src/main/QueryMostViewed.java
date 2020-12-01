@@ -7,6 +7,13 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Metoda ce intoarce un mesaj cu un Arraylist ce contine
+ * numele filmelor sortate dupa numarul de vizualizari
+ * Parcurg movies ca sa extrag nr de vizualizari, fac o
+ * suma cu acestea si o adaug intr-un moa alaturi de numele filmului.
+ * In final, sortez dupa sortType, ascendent sau descendent.
+ */
 final class QueryMostViewed {
     private String outText;
 
